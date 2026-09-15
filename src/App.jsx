@@ -3,6 +3,7 @@ import "./App.css";
 import { getData } from "./constants/db";
 import Card from "./Components/Card/card";
 import Cart from "./Components/Cart/cart";
+import { useCallback } from "react";
 
 const courses = getData();
 
@@ -57,6 +58,16 @@ const App = () => {
     telegram.MainButton.text = "Sotib olish :)";
     telegram.MainButton.show();
   };
+
+  const onSendData = useCallback(() => {
+    telegram.sendData(JSON.stringify(cartItems));
+  }, [cartItems]);
+
+  useEffect(() => {
+    telegram.onEvent("mainButtonClicked", onSendData);
+
+    return () => telegram.offEvent("mainButtonClicked", onSendData);
+  }, [onSendData]);
 
   return (
     <>
