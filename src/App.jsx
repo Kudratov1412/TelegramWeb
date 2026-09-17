@@ -21,9 +21,7 @@ const App = () => {
 
     if (existItem) {
       const data = cartItems.map((c) =>
-        c.id == item.id
-          ? { ...existItem, quantity: existItem.quantity + 1 }
-          : c,
+        c.id == item.id ? { ...em, quantity: existItem.quantity + 1 } : c,
       );
       setCartItems(data);
     } else {
@@ -60,7 +58,19 @@ const App = () => {
   };
 
   const onSendData = useCallback(() => {
-    telegram.sendData(JSON.stringify(cartItems));
+    const queryID = telegram.initDataUnsave?.query_id;
+
+    if (queryID) {
+      fetch("http://localhost:8000/web-data", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(cartItems),
+      });
+    } else {
+      telegram.sendData(JSON.stringify(cartItems));
+    }
   }, [cartItems]);
 
   useEffect(() => {
@@ -71,7 +81,7 @@ const App = () => {
 
   return (
     <>
-      <h1 className="heading">Furqat kurslari</h1>
+      <h1 className="heading">Furqatning kurslari</h1>
       <Cart cartItems={cartItems} onCheckout={onCheckout} />
       <div className="cards__container">
         {courses.map((course) => (
