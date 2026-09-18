@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import "./App.css";
 import { getData } from "./constants/db";
 import Card from "./Components/Card/card";
 import Cart from "./Components/Cart/cart";
-import { useCallback } from "react";
 
 const courses = getData();
 
