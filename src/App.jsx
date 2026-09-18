@@ -75,7 +75,7 @@ const App = () => {
   useEffect(() => {
     // telegram.onEvent("mainButtonClicked", onSendData);
 
-    // console.log("fdeswsgdsffds");
+    console.log("fdeswsgdsffds");
 
     // return () => telegram.offEvent("mainButtonClicked", onSendData);
   }, []);
