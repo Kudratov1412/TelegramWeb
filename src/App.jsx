@@ -76,9 +76,8 @@ const App = () => {
     telegram.onEvent("mainButtonClicked", onSendData);
 
     console.log("fdeswsgdsffds");
-    
 
-    return () => telegram.offEvent("mainButtonClicked", onSendData);
+    // return () => telegram.offEvent("mainButtonClicked", onSendData);
   }, [onSendData]);
 
   return (
