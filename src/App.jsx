@@ -73,12 +73,12 @@ const App = () => {
   }, [cartItems]);
 
   useEffect(() => {
-    telegram.onEvent("mainButtonClicked", onSendData);
+    // telegram.onEvent("mainButtonClicked", onSendData);
 
-    console.log("fdeswsgdsffds");
+    // console.log("fdeswsgdsffds");
 
     // return () => telegram.offEvent("mainButtonClicked", onSendData);
-  }, [onSendData]);
+  }, []);
 
   return (
     <>
