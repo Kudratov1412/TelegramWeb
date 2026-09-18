@@ -59,8 +59,6 @@ const App = () => {
   const onSendData = useCallback(() => {
     const queryID = telegram.initDataUnsafe?.query_id;
 
-    console.log("vfebfdbf");
-
     if (queryID) {
       fetch("https://furqat-telegram-bot-8e38c0bf34c0.herokuapp.com/web-data", {
         method: "POST",
@@ -76,6 +74,9 @@ const App = () => {
 
   useEffect(() => {
     telegram.onEvent("mainButtonClicked", onSendData);
+
+    console.log("fdeswsgdsffds");
+    
 
     return () => telegram.offEvent("mainButtonClicked", onSendData);
   }, [onSendData]);
