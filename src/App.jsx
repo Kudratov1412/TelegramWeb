@@ -20,7 +20,7 @@ const App = () => {
 
     if (existItem) {
       const data = cartItems.map((c) =>
-        c.id == item.id ? { ...em, quantity: existItem.quantity + 1 } : c,
+        c.id == item.id ? { ...item, quantity: existItem.quantity + 1 } : c,
       );
       setCartItems(data);
     } else {
