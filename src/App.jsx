@@ -72,6 +72,8 @@ const App = () => {
       });
     } else {
       telegram.sendData(JSON.stringify(cartItems));
+      console.log("dvsvdsfsfddfs");
+      
     }
   }, [cartItems]);
 
