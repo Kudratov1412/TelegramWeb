@@ -55,6 +55,8 @@ const App = () => {
   const onCheckout = () => {
     telegram.MainButton.text = "Sotib olish :)";
     telegram.MainButton.show();
+
+    console.log(cartItems);
   };
 
   const onSendData = useCallback(() => {
