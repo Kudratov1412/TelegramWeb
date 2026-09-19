@@ -14,7 +14,6 @@ const App = () => {
   useEffect(() => {
     telegram.ready();
     console.log("djueisjfesidij");
-    
   });
 
   const onAddItem = (item) => {
