@@ -63,16 +63,13 @@ const App = () => {
     const queryID = telegram.initDataUnsafe?.query_id;
 
     if (queryID) {
-      fetch(
-        "https://furqat-telegram-bot-8e38c0bf34c0.herokuapp.com/web-app-data",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ products: cartItems, queryID: queryID }),
+      fetch("https://furqat-telegram-bot-8e38c0bf34c0.herokuapp.com/web-data", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
         },
-      );
+        body: JSON.stringify({ products: cartItems, queryID: queryID }),
+      });
     } else {
       telegram.sendData(JSON.stringify(cartItems));
       console.log("dvsvdsfsfddfs");
