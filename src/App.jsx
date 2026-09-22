@@ -95,7 +95,7 @@ const App = () => {
     <>
       <h1 className="heading">Furqatning kurslari</h1>
       <Cart cartItems={cartItems} onCheckout={onCheckout} />
-      {check}
+      <h3>{check}</h3>
       <div className="cards__container">
         {courses.map((course) => (
           <Card
