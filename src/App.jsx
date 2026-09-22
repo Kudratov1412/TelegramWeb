@@ -62,6 +62,8 @@ const App = () => {
   const onSendData = useCallback(() => {
     const queryID = telegram.initDataUnsafe?.query_id;
 
+    console.log(telegram.initDataUnsafe);
+
     if (queryID) {
       fetch("https://furqat-telegram-bot-8e38c0bf34c0.herokuapp.com/web-data", {
         method: "POST",
