@@ -6,6 +6,8 @@ import Cart from "./Components/Cart/cart";
 
 const courses = getData();
 
+let check = 5;
+
 const telegram = window.Telegram.WebApp;
 
 const App = () => {
@@ -91,6 +93,7 @@ const App = () => {
     <>
       <h1 className="heading">Furqatning kurslari</h1>
       <Cart cartItems={cartItems} onCheckout={onCheckout} />
+      <h3>{check}</h3>
       <div className="cards__container">
         {courses.map((course) => (
           <Card
