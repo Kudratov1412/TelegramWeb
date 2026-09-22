@@ -70,6 +70,7 @@ const App = () => {
         },
         body: JSON.stringify({ products: cartItems, queryID: queryID }),
       });
+      console.log("dvsvdsfsfddfs");
     } else {
       telegram.sendData(JSON.stringify(cartItems));
       console.log("dvsvdsfsfddfs");
