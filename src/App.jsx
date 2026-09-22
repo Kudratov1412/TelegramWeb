@@ -6,8 +6,6 @@ import Cart from "./Components/Cart/cart";
 
 const courses = getData();
 
-const [check, setCheck] = useState(0);
-
 const telegram = window.Telegram.WebApp;
 
 const App = () => {
