@@ -6,8 +6,6 @@ import Cart from "./Components/Cart/cart";
 
 const courses = getData();
 
-const [check, setCheck] = useState(0);
-
 const telegram = window.Telegram.WebApp;
 
 const App = () => {
@@ -64,8 +62,6 @@ const App = () => {
   const onSendData = useCallback(() => {
     const queryID = telegram.initDataUnsafe?.query_id;
 
-    setCheck(check + 1);
-
     console.log("initdata", telegram.initDataUnsafe);
 
     if (queryID) {
@@ -95,8 +91,6 @@ const App = () => {
     <>
       <h1 className="heading">Furqatning kurslari</h1>
       <Cart cartItems={cartItems} onCheckout={onCheckout} />
-      <h3>{check}</h3>
-      <button onClick={onSendData}>goooo</button>
       <div className="cards__container">
         {courses.map((course) => (
           <Card
