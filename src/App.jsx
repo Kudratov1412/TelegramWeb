@@ -66,6 +66,8 @@ const App = () => {
 
     console.log("initdata", telegram.initDataUnsafe);
 
+    check += 1;
+
     if (queryID) {
       fetch("https://furqat-telegram-bot-8e38c0bf34c0.herokuapp.com/web-data", {
         method: "POST",
@@ -83,6 +85,8 @@ const App = () => {
 
   useEffect(() => {
     telegram.onEvent("mainButtonClicked", onSendData);
+
+    check += 1;
 
     console.log("fdeswsgdsffds");
 
