@@ -7,3 +7,10 @@
 .heading {
   text-align: center;
 }
+
+h3 {
+  width: 100px;
+  height: 100px;
+  background-color: #fff;
+  color: black;
+}
