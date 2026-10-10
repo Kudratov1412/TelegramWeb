@@ -19,7 +19,7 @@ const Kredit = () => {
 
   return (
     <div className="kredit">
-      <Input global={baza} />
+      <Input global={baza} />ssssssssssssss
       {output ? <Output /> : ""}
     </div>
   );
