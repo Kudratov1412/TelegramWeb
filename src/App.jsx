@@ -3,6 +3,7 @@ import "./App.css";
 import { getData } from "./constants/db";
 import Card from "./Components/Card/card";
 import Cart from "./Components/Cart/cart";
+import Input from "./Components/Input/input";
 
 const courses = getData();
 
@@ -107,6 +108,9 @@ const App = () => {
             onRemoveItem={onRemoveItem}
           />
         ))}
+      </div>
+      <div className="kredit">
+        <Input />
       </div>
     </>
   );
