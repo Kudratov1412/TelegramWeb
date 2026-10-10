@@ -3,7 +3,7 @@ import "./App.css";
 import { getData } from "./constants/db";
 import Card from "./Components/Card/card";
 import Cart from "./Components/Cart/cart";
-import Input from "./Components/Input/input";
+import Kredit from "./Components/Kredit/kredit";
 
 const courses = getData();
 
@@ -109,9 +109,7 @@ const App = () => {
           />
         ))}
       </div>
-      <div className="kredit">
-        <Input />
-      </div>
+      <Kredit />
     </>
   );
 };
