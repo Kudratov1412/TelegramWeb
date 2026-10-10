@@ -1,19 +1,16 @@
-import { useRef, useState } from "react";
+import { useState } from "react";
 import "./input.css";
 
 const Input = ({ global }) => {
   const [local, setLocal] = useState({
     muddat: "",
-    yillik_foiz: "",
-    oylik_foiz: "",
+    foiz: "",
     summa: "",
     bosh_tulov: "",
     free_bool: false,
     free_tulov: "",
     free_davr: "",
   });
-
-  const inputRef = useRef(false);
 
   return (
     <div className="input">
@@ -54,17 +51,18 @@ const Input = ({ global }) => {
             type="checkbox"
             name="free-bool"
             id="free-bool"
-            value={inputRef}
-            inputRef={inputRef}
-            onChange={() => {
-              inputRef.current
-                ? (local.free_bool = true)
-                : (local.free_bool = false);
+            value={local.free_bool}
+            onChange={(e) => {
+              setLocal({
+                free_bool: e.target.checked,
+                ...local,
+              });
+              console.log(e.target.checked, local.free_bool);
             }}
           />
         </div>
 
-        {local.free_bool ? <div>aaaaaaaaa</div> : ""}
+        {local.free_bool ? <div>aaaaaaaaa</div> : local.free_bool}
 
         <button className="hisoblash">Hisoblash</button>
       </form>
