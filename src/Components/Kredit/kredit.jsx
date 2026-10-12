@@ -5,13 +5,15 @@ import Output from "../Output/output";
 
 const Kredit = () => {
   const [baza, setBaza] = useState({
+    bosh_sana: "",
     muddat: "",
-    yillik_foiz: "",
+    foiz: "",
     summa: "",
     bosh_tulov: "",
     free_bool: "",
     free_tulov: "",
     free_davr: "",
+    istisno: [],
   });
 
   const [output, setOutput] = useState(false);
