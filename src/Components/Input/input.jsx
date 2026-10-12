@@ -1,10 +1,10 @@
-import { useRef, useState } from "react";
+import { useState } from "react";
 import "./input.css";
 
 const Input = ({ global }) => {
   const [local, setLocal] = useState({
     muddat: "",
-    yillik_foiz: "",
+    foiz: "",
     summa: "",
     bosh_tulov: "",
     free_bool: true,
@@ -50,42 +50,15 @@ const Input = ({ global }) => {
             value={local.free_bool}
             onChange={(e) => {
               setLocal({
+                free_bool: e.target.checked,
                 ...local,
-                free_bool: !local.free_bool,
               });
+              console.log(e.target.checked, local.free_bool);
             }}
           />
         </div>
 
-        {local.free_bool ? (
-          <div className="free-box">
-            <div className="free-tulov-box">
-              <label htmlFor="first">Qo'shimcha to'lov</label>
-              <input type="text" name="free-tulov" id="free-tulov" />
-            </div>
-
-            <div className="free-davr-box">
-              <label htmlFor="first">Qo'shimcha to'lov davri</label>
-              <input type="text" name="free-davr" id="free-davr" />
-            </div>
-
-            <div className="istisno">
-              <div className="vaqti">
-                <label htmlFor="date">Sanani kiriting :</label>
-                <input type="date" name="date" id="date" />
-              </div>
-
-              <div className="miqdori">
-                <label htmlFor="miqdor">Miqdorini kiriting (+, -): </label>
-                <input type="text" name="miqdor" id="miqdor" />
-              </div>
-
-              <button type="button">Qo'shish</button>
-            </div>
-          </div>
-        ) : (
-          ""
-        )}
+        {local.free_bool ? <div>aaaaaaaaa</div> : local.free_bool}
 
         <button className="hisoblash">Hisoblash</button>
       </form>
