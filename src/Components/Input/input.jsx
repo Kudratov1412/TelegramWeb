@@ -5,15 +5,12 @@ const Input = ({ global }) => {
   const [local, setLocal] = useState({
     muddat: "",
     yillik_foiz: "",
-    oylik_foiz: "",
     summa: "",
     bosh_tulov: "",
-    free_bool: false,
+    free_bool: true,
     free_tulov: "",
     free_davr: "",
   });
-
-  const inputRef = useRef(false);
 
   return (
     <div className="input">
@@ -29,12 +26,8 @@ const Input = ({ global }) => {
         </div>
 
         <div className="foiz-box">
-          <label htmlFor="foiz">Foiz stavkasi</label>
+          <label htmlFor="foiz">Yillik foiz stavkasi</label>
           <input type="text" name="foiz" id="foiz" />
-          <select>
-            <option value="oy">Oy</option>
-            <option value="yil">Yil</option>
-          </select>
         </div>
 
         <div className="muddat-box">
@@ -46,7 +39,7 @@ const Input = ({ global }) => {
           </select>
         </div>
 
-        <div className="free-box">
+        <div className="free-bool-box">
           <label htmlFor="free-bool">
             Oy-ma oy qo'shimcha to'lov qilmoqchimisiz
           </label>
@@ -54,17 +47,45 @@ const Input = ({ global }) => {
             type="checkbox"
             name="free-bool"
             id="free-bool"
-            value={inputRef}
-            inputRef={inputRef}
-            onChange={() => {
-              inputRef.current
-                ? (local.free_bool = true)
-                : (local.free_bool = false);
+            value={local.free_bool}
+            onChange={(e) => {
+              setLocal({
+                ...local,
+                free_bool: !local.free_bool,
+              });
             }}
           />
         </div>
 
-        {local.free_bool ? <div>aaaaaaaaa</div> : ""}
+        {local.free_bool ? (
+          <div className="free-box">
+            <div className="free-tulov-box">
+              <label htmlFor="first">Qo'shimcha to'lov</label>
+              <input type="text" name="free-tulov" id="free-tulov" />
+            </div>
+
+            <div className="free-davr-box">
+              <label htmlFor="first">Qo'shimcha to'lov davri</label>
+              <input type="text" name="free-davr" id="free-davr" />
+            </div>
+
+            <div className="istisno">
+              <div className="vaqti">
+                <label htmlFor="date">Sanani kiriting :</label>
+                <input type="date" name="date" id="date" />
+              </div>
+
+              <div className="miqdori">
+                <label htmlFor="miqdor">Miqdorini kiriting (+, -): </label>
+                <input type="text" name="miqdor" id="miqdor" />
+              </div>
+
+              <button type="button">Qo'shish</button>
+            </div>
+          </div>
+        ) : (
+          ""
+        )}
 
         <button className="hisoblash">Hisoblash</button>
       </form>
