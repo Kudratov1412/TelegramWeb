@@ -6,8 +6,7 @@ import Output from "../Output/output";
 const Kredit = () => {
   const [baza, setBaza] = useState({
     muddat: "",
-    yillik_foiz: "",
-    oylik_foiz: "",
+    foiz: "",
     summa: "",
     bosh_tulov: "",
     free_bool: "",
