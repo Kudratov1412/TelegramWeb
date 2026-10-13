@@ -1,7 +1,7 @@
 import { useState } from "react";
 import "./input.css";
 
-const Input = ({ global }) => {
+const Input = ({ global, setOutput }) => {
   const [local, setLocal] = useState({
     bosh_sana: "",
     muddat: "",
@@ -33,6 +33,8 @@ const Input = ({ global }) => {
     global.free_tulov = local.free_tulov;
     global.free_davr = local.free_davr;
     global.istisno = local.istisno;
+
+    setOutput(true);
   };
 
   return (
