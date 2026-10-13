@@ -1,9 +1,9 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import "./output.css";
 
-const Output = ({ global, output, setOutput }) => {
+const Output = ({ global }) => {
   const [local, setLocal] = useState({
-    bosh_sana: global.bosh_sana,
+    bosh_sana: global.bosh_sana ? new Date(global.bosh_sana) : new Date(),
     muddat: global.muddat,
     yillik_foiz: global.foiz,
     oylik_foiz: global.foiz / 12,
@@ -16,8 +16,9 @@ const Output = ({ global, output, setOutput }) => {
     asosiy_qarz: global.summa - global.bosh_tulov,
     asosiy_qarzga_birinchi_tulov:
       Math.round(
-        ((local.asosiy_qarz * local.oylik_foiz) /
-          (Math.pow(1 + local.oylik_foiz, local.muddat) - 1)) *
+        (((global.summa - global.bosh_tulov) * global.foiz) /
+          12 /
+          (Math.pow(1 + global.foiz / 12, global.muddat) - 1)) *
           100,
       ) / 100,
   });
@@ -87,25 +88,6 @@ const Output = ({ global, output, setOutput }) => {
         },
       ]);
 
-      // chiqarish
-      console.log(
-        String(i).padStart(2, " "),
-        "    ",
-        getDate(local.bosh_sana),
-        "    ",
-        String(pul.format(q)).padStart(14, " "),
-        "    ",
-        String(pul.format(a)).padStart(12, " "),
-        "    ",
-        String(pul.format(f)).padStart(12, " "),
-        "    ",
-        String(pul.format(a + f)).padStart(12, " "),
-        "    ",
-        i % local.free_davr === 0 && q > a + local.free_tulov && local.free_bool
-          ? String(pul.format(local.free_tulov)).padStart(12, " ")
-          : "            ",
-      );
-
       // belgilangan sanaga qaytish
       local.bosh_sana.setDate(today);
 
@@ -119,7 +101,7 @@ const Output = ({ global, output, setOutput }) => {
       // qo'shimcha to'lovni hisoblash
       if (i % local.free_davr === 0 && q > local.free_tulov) {
         q -= local.free_tulov;
-        jami_free += local.free_tulov;
+        jami_free += Number(local.free_tulov);
       }
 
       // keyingi oy uchun asosiy qarzni hisoblash
@@ -146,11 +128,38 @@ const Output = ({ global, output, setOutput }) => {
       <div className="info-box">
         <p>Umumiy narx: {local.summa}</p>
         <p>Boshlang'ich to'lov: {local.bosh_tulov}</p>
-        <p>Yillik foiz stavkasi: {local.foiz * 100}%</p>
+        <p>Yillik foiz stavkasi: {local.yillik_foiz * 100}%</p>
         <p>Kredit muddati: {local.muddat} oy</p>
       </div>
 
-      <div className="table-box">{/* Table content goes here */}</div>
+      <div className="table-box">
+        <table>
+          <thead>
+            <tr>
+              <th>№</th>
+              <th>Sana</th>
+              <th>Asosiy qarz qoldig'i</th>
+              <th>Asosiy to'lov</th>
+              <th>Foiz to'lov</th>
+              <th>Jami to'lov</th>
+              {local.free_bool && <th>Qo'shimcha to'lov</th>}
+            </tr>
+          </thead>
+          <tbody>
+            {tables.map((row) => (
+              <tr key={row.id}>
+                <td>{row.id}</td>
+                <td>{row.sana}</td>
+                <td>{row.asosiy_qarz}</td>
+                <td>{row.asosiy_tulov}</td>
+                <td>{row.foiz_tulov}</td>
+                <td>{row.jami_tulov}</td>
+                {local.free_bool && <td>{row.free_tulov}</td>}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 };
