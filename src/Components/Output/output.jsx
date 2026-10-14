@@ -4,21 +4,22 @@ import "./output.css";
 const Output = ({ global }) => {
   const [local, setLocal] = useState({
     bosh_sana: global.bosh_sana ? new Date(global.bosh_sana) : new Date(),
-    muddat: global.muddat,
-    yillik_foiz: global.foiz,
-    oylik_foiz: global.foiz / 12,
-    summa: global.summa,
-    bosh_tulov: global.bosh_tulov,
+    muddat: Number(global.muddat),
+    yillik_foiz: Number(global.foiz),
+    oylik_foiz: Number(global.foiz) / 12,
+    summa: Number(global.summa),
+    bosh_tulov: Number(global.bosh_tulov),
     free_bool: global.free_bool,
-    free_tulov: global.free_tulov,
-    free_davr: global.free_davr,
+    free_tulov: Number(global.free_tulov),
+    free_davr: Number(global.free_davr),
     istisno: global.istisno,
-    asosiy_qarz: global.summa - global.bosh_tulov,
+    asosiy_qarz: Number(global.summa) - Number(global.bosh_tulov),
     asosiy_qarzga_birinchi_tulov:
       Math.round(
-        (((global.summa - global.bosh_tulov) * global.foiz) /
+        (((Number(global.summa) - Number(global.bosh_tulov)) *
+          Number(global.foiz)) /
           12 /
-          (Math.pow(1 + global.foiz / 12, global.muddat) - 1)) *
+          (Math.pow(1 + Number(global.foiz) / 12, Number(global.muddat)) - 1)) *
           100,
       ) / 100,
   });
@@ -70,6 +71,24 @@ const Output = ({ global }) => {
         local.bosh_sana.setDate(local.bosh_sana.getDate() + 1);
       }
 
+      console.log(
+        String(i).padStart(2, " "),
+        "    ",
+        getDate(local.bosh_sana),
+        "    ",
+        String(pul.format(q)).padStart(14, " "),
+        "    ",
+        String(pul.format(a)).padStart(12, " "),
+        "    ",
+        String(pul.format(f)).padStart(12, " "),
+        "    ",
+        String(pul.format(a + f)).padStart(12, " "),
+        "    ",
+        i % local.free_davr === 0 && q > a + local.free_tulov && local.free_bool
+          ? String(pul.format(local.free_tulov)).padStart(12, " ")
+          : "            ",
+      );
+
       setTables((prevTables) => [
         ...prevTables,
         {
@@ -99,9 +118,13 @@ const Output = ({ global }) => {
       jami_asosiy += a;
 
       // qo'shimcha to'lovni hisoblash
-      if (i % local.free_davr === 0 && q > local.free_tulov) {
+      if (
+        i % local.free_davr === 0 &&
+        q > local.free_tulov &&
+        local.free_bool
+      ) {
         q -= local.free_tulov;
-        jami_free += Number(local.free_tulov);
+        jami_free += local.free_tulov;
       }
 
       // keyingi oy uchun asosiy qarzni hisoblash
