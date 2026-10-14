@@ -30,6 +30,8 @@ const Output = ({ global }) => {
 
   const [tables, setTables] = useState([]);
 
+  const t = [];
+
   const pul = new Intl.NumberFormat("uz-UZ", {
     style: "decimal", // Shunchaki o'nlik son formati
     minimumFractionDigits: 2, // Verguldan keyin kamida 2 ta raqam
@@ -71,41 +73,24 @@ const Output = ({ global }) => {
         local.bosh_sana.setDate(local.bosh_sana.getDate() + 1);
       }
 
-      console.log(
-        String(i).padStart(2, " "),
-        "    ",
-        getDate(local.bosh_sana),
-        "    ",
-        String(pul.format(q)).padStart(14, " "),
-        "    ",
-        String(pul.format(a)).padStart(12, " "),
-        "    ",
-        String(pul.format(f)).padStart(12, " "),
-        "    ",
-        String(pul.format(a + f)).padStart(12, " "),
-        "    ",
-        i % local.free_davr === 0 && q > a + local.free_tulov && local.free_bool
-          ? String(pul.format(local.free_tulov)).padStart(12, " ")
-          : "            ",
-      );
+      const row = {
+        id: String(i),
+        sana: String(getDate(local.bosh_sana)),
+        asosiy_qarz: String(pul.format(q)),
+        asosiy_tulov: String(pul.format(a)),
+        foiz_tulov: String(pul.format(f)),
+        jami_tulov: String(pul.format(a + f)),
+        free_tulov:
+          i % local.free_davr === 0 &&
+          q > a + local.free_tulov &&
+          local.free_bool
+            ? String(pul.format(local.free_tulov))
+            : "            ",
+      };
 
-      setTables((prevTables) => [
-        ...prevTables,
-        {
-          id: i,
-          sana: getDate(local.bosh_sana),
-          asosiy_qarz: pul.format(q),
-          asosiy_tulov: pul.format(a),
-          foiz_tulov: pul.format(f),
-          jami_tulov: pul.format(a + f),
-          free_tulov:
-            i % local.free_davr === 0 &&
-            q > a + local.free_tulov &&
-            local.free_bool
-              ? pul.format(local.free_tulov)
-              : null,
-        },
-      ]);
+      t.push(row);
+
+      console.log(row);
 
       // belgilangan sanaga qaytish
       local.bosh_sana.setDate(today);
@@ -134,6 +119,8 @@ const Output = ({ global }) => {
       if (q === 0) break;
     }
 
+    setTables(t);
+
     console.log(
       "                                          ",
       pul.format(jami_asosiy),
@@ -149,10 +136,10 @@ const Output = ({ global }) => {
   return (
     <div className="output">
       <div className="info-box">
-        <p>Umumiy narx: {local.summa}</p>
-        <p>Boshlang'ich to'lov: {local.bosh_tulov}</p>
-        <p>Yillik foiz stavkasi: {local.yillik_foiz * 100}%</p>
-        <p>Kredit muddati: {local.muddat} oy</p>
+        <p>Umumiy narx: {String(pul.format(local.summa))}</p>
+        <p>Boshlang'ich to'lov: {String(pul.format(local.bosh_tulov))}</p>
+        <p>Yillik foiz stavkasi: {String(local.yillik_foiz * 100)}%</p>
+        <p>Kredit muddati: {String(local.muddat)} oy</p>
       </div>
 
       <div className="table-box">
@@ -180,6 +167,50 @@ const Output = ({ global }) => {
                 {local.free_bool && <td>{row.free_tulov}</td>}
               </tr>
             ))}
+            <tr>
+              <td colSpan={2}>Jami</td>
+              <td>{pul.format(local.asosiy_qarz)}</td>
+              <td>
+                {pul.format(
+                  tables.reduce(
+                    (sum, row) =>
+                      sum + Number(row.asosiy_tulov.replace(/,/g, "")),
+                    0,
+                  ),
+                )}
+              </td>
+              <td>
+                {pul.format(
+                  tables.reduce(
+                    (sum, row) =>
+                      sum + Number(row.foiz_tulov.replace(/,/g, "")),
+                    0,
+                  ),
+                )}
+              </td>
+              <td>
+                {pul.format(
+                  tables.reduce(
+                    (sum, row) =>
+                      sum +
+                      Number(row.foiz_tulov.replace(/,/g, "")) +
+                      Number(row.asosiy_tulov.replace(/,/g, "")),
+                    0,
+                  ),
+                )}
+              </td>
+              {local.free_bool && (
+                <td>
+                  {pul.format(
+                    tables.reduce(
+                      (sum, row) =>
+                        sum + Number(row.free_tulov.replace(/,/g, "")),
+                      0,
+                    ),
+                  )}
+                </td>
+              )}
+            </tr>
           </tbody>
         </table>
       </div>
