@@ -97,8 +97,7 @@ const Output = ({ global }) => {
             : "            ",
       };
 
-      if (row.sana.) {
-        
+      if (row.sana.slice(2, row.length)) {
       }
 
       t.push(row);
@@ -186,9 +185,7 @@ const Output = ({ global }) => {
               <td>Jami</td>
               <td></td>
               <td></td>
-              <td>
-                {pul(local.asosiy_qarz)}
-              </td>
+              <td>{pul(local.asosiy_qarz)}</td>
               <td>
                 {pul(
                   tables.reduce(
