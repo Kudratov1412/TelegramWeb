@@ -97,8 +97,16 @@ const Output = ({ global }) => {
             : "            ",
       };
 
-      if (row.sana.slice(2, row.length)) {
-      }
+      local.istisno.forEach((item) => {
+        if (
+          row.sana.slice(2, row.length) ===
+          String(item.date.getMonth() + 1).padStart(2, "0") +
+            "." +
+            item.date.getFullYear()
+        ) {
+          row.free_tulov += item.miqdor;
+        }
+      });
 
       t.push(row);
 
@@ -143,8 +151,6 @@ const Output = ({ global }) => {
       "  ",
       pul(jami_free),
     );
-
-    console.log(t[46].asosiy_tulov);
   };
 
   return (

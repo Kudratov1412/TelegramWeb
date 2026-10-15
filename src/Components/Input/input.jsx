@@ -34,6 +34,7 @@ const Input = ({ global, setOutput }) => {
     global.free_davr = local.free_davr;
     global.istisno = local.istisno;
 
+    setOutput(false);
     setOutput(true);
   };
 
@@ -180,7 +181,7 @@ const Input = ({ global, setOutput }) => {
                     ...local,
                     istisno: [
                       ...local.istisno,
-                      { date: date, miqdor: Number(miq) },
+                      { date: date, miqdor: Number( ) },
                     ],
                   });
                   setDate("");

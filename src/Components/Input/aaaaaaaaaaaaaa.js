@@ -68,7 +68,7 @@ for (let i = 1; i <= muddati_oy; i++) {
     String(pul.format(a + f)).padStart(12, " "),
     "    ",
     i % free_davr == 0 && q > a + free_tulov
-      ? String(pul.format(free_tulov)).padStart(12, " ")
+      ? String(p          ul.format(free_tulov)).padStart(12, " ")
       : "            ",
   );
 
