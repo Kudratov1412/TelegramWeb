@@ -178,7 +178,10 @@ const Input = ({ global, setOutput }) => {
                 if (date && miq) {
                   setLocal({
                     ...local,
-                    istisno: [...local.istisno, { date: date, miqdor: miq }],
+                    istisno: [
+                      ...local.istisno,
+                      { date: date, miqdor: Number(miq) },
+                    ],
                   });
                   setDate("");
                   setMiq("");

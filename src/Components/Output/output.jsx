@@ -32,11 +32,20 @@ const Output = ({ global }) => {
 
   const t = [];
 
-  const pul = new Intl.NumberFormat("uz-UZ", {
-    style: "decimal", // Shunchaki o'nlik son formati
-    minimumFractionDigits: 2, // Verguldan keyin kamida 2 ta raqam
-    maximumFractionDigits: 2, // Verguldan keyin ko'pi bilan 2 ta raqam
-  });
+  const pul = (value) => {
+    const parts = new Intl.NumberFormat("uz-UZ", {
+      style: "decimal", // Shunchaki o'nlik son formati
+      useGrouping: true,
+      minimumFractionDigits: 2, // Verguldan keyin kamida 2 ta raqam
+      maximumFractionDigits: 2, // Verguldan keyin ko'pi bilan 2 ta raqam
+    }).formatToParts(value);
+
+    const result = parts
+      .map((part) => (part.type === "group" ? " " : part.value))
+      .join("");
+
+    return result;
+  };
 
   // functions
   const getDate = (date) => {
@@ -76,15 +85,15 @@ const Output = ({ global }) => {
       const row = {
         id: String(i),
         sana: String(getDate(local.bosh_sana)),
-        asosiy_qarz: String(pul.format(q)),
-        asosiy_tulov: String(pul.format(a)),
-        foiz_tulov: String(pul.format(f)),
-        jami_tulov: String(pul.format(a + f)),
+        asosiy_qarz: String(pul(q)),
+        asosiy_tulov: String(pul(a)),
+        foiz_tulov: String(pul(f)),
+        jami_tulov: String(pul(a + f)),
         free_tulov:
           i % local.free_davr === 0 &&
           q > a + local.free_tulov &&
           local.free_bool
-            ? String(pul.format(local.free_tulov))
+            ? String(pul(local.free_tulov))
             : "            ",
       };
 
@@ -123,21 +132,23 @@ const Output = ({ global }) => {
 
     console.log(
       "                                          ",
-      pul.format(jami_asosiy),
+      pul(jami_asosiy),
       "   ",
-      pul.format(jami_foiz),
+      pul(jami_foiz),
       "  ",
-      pul.format(jami_foiz + local.asosiy_qarz),
+      pul(jami_foiz + local.asosiy_qarz),
       "  ",
-      pul.format(jami_free),
+      pul(jami_free),
     );
+
+    console.log(Number(t[46].asosiy_tulov));
   };
 
   return (
     <div className="output">
       <div className="info-box">
-        <p>Umumiy narx: {String(pul.format(local.summa))}</p>
-        <p>Boshlang'ich to'lov: {String(pul.format(local.bosh_tulov))}</p>
+        <p>Umumiy narx: {pul(local.summa)}</p>
+        <p>Boshlang'ich to'lov: {pul(local.bosh_tulov)}</p>
         <p>Yillik foiz stavkasi: {String(local.yillik_foiz * 100)}%</p>
         <p>Kredit muddati: {String(local.muddat)} oy</p>
       </div>
@@ -168,10 +179,10 @@ const Output = ({ global }) => {
               </tr>
             ))}
             <tr>
-              <td colSpan={2}>Jami</td>
-              <td>{pul.format(local.asosiy_qarz)}</td>
+              <td>Jami</td>
+              <td>{pul(local.asosiy_qarz)}</td>
               <td>
-                {pul.format(
+                {pul(
                   tables.reduce(
                     (sum, row) =>
                       sum + Number(row.asosiy_tulov.replace(/,/g, "")),
@@ -180,7 +191,7 @@ const Output = ({ global }) => {
                 )}
               </td>
               <td>
-                {pul.format(
+                {pul(
                   tables.reduce(
                     (sum, row) =>
                       sum + Number(row.foiz_tulov.replace(/,/g, "")),
@@ -189,7 +200,7 @@ const Output = ({ global }) => {
                 )}
               </td>
               <td>
-                {pul.format(
+                {pul(
                   tables.reduce(
                     (sum, row) =>
                       sum +
@@ -201,7 +212,7 @@ const Output = ({ global }) => {
               </td>
               {local.free_bool && (
                 <td>
-                  {pul.format(
+                  {pul(
                     tables.reduce(
                       (sum, row) =>
                         sum + Number(row.free_tulov.replace(/,/g, "")),
