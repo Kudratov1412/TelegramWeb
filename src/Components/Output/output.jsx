@@ -97,6 +97,10 @@ const Output = ({ global }) => {
             : "            ",
       };
 
+      if (row.sana.) {
+        
+      }
+
       t.push(row);
 
       console.log(row);
@@ -141,7 +145,7 @@ const Output = ({ global }) => {
       pul(jami_free),
     );
 
-    console.log(Number(t[46].asosiy_tulov));
+    console.log(t[46].asosiy_tulov);
   };
 
   return (
@@ -180,21 +184,16 @@ const Output = ({ global }) => {
             ))}
             <tr>
               <td>Jami</td>
-              <td>{pul(local.asosiy_qarz)}</td>
+              <td></td>
+              <td></td>
               <td>
-                {pul(
-                  tables.reduce(
-                    (sum, row) =>
-                      sum + Number(row.asosiy_tulov.replace(/,/g, "")),
-                    0,
-                  ),
-                )}
+                {pul(local.asosiy_qarz)}
               </td>
               <td>
                 {pul(
                   tables.reduce(
                     (sum, row) =>
-                      sum + Number(row.foiz_tulov.replace(/,/g, "")),
+                      sum + Number(row.foiz_tulov.replace(/ /g, "")),
                     0,
                   ),
                 )}
@@ -204,8 +203,8 @@ const Output = ({ global }) => {
                   tables.reduce(
                     (sum, row) =>
                       sum +
-                      Number(row.foiz_tulov.replace(/,/g, "")) +
-                      Number(row.asosiy_tulov.replace(/,/g, "")),
+                      Number(row.foiz_tulov.replace(/ /g, "")) +
+                      Number(row.asosiy_tulov.replace(/ /g, "")),
                     0,
                   ),
                 )}
@@ -215,7 +214,7 @@ const Output = ({ global }) => {
                   {pul(
                     tables.reduce(
                       (sum, row) =>
-                        sum + Number(row.free_tulov.replace(/,/g, "")),
+                        sum + Number(row.free_tulov.replace(/ /g, "")),
                       0,
                     ),
                   )}

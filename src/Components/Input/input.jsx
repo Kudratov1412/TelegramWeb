@@ -123,7 +123,7 @@ const Input = ({ global, setOutput }) => {
       {local.free_bool ? (
         <div className="free-box">
           <div className="free-tulov-box">
-            <label htmlFor="first">Qo'shimcha to'lov</label>
+            <label htmlFor="first">Qo'shimcha to'lov qiymati</label>
             <input
               type="text"
               name="free-tulov"
