@@ -181,7 +181,10 @@ const Input = ({ global, setOutput }) => {
                     ...local,
                     istisno: [
                       ...local.istisno,
-                      { date: date, miqdor: Number( ) },
+                      {
+                        date: `${date.slice(5, 7)}.${date.slice(0, 4)}`,
+                        miqdor: Number(miq),
+                      },
                     ],
                   });
                   setDate("");

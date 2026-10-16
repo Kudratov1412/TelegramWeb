@@ -64,6 +64,7 @@ const Output = ({ global }) => {
     let q = local.asosiy_qarz;
     let a = local.asosiy_qarzga_birinchi_tulov;
     let f = 0;
+    let fr = 0;
     let jami_asosiy = 0;
     let jami_foiz = 0;
     let jami_free = 0;
@@ -81,8 +82,19 @@ const Output = ({ global }) => {
       while (local.bosh_sana.getDay() == 6 || local.bosh_sana.getDay() == 0) {
         local.bosh_sana.setDate(local.bosh_sana.getDate() + 1);
       }
+      // Istisnoni hisoblash
+      local.istisno.forEach((item) => {
+        let sa = `${String(local.bosh_sana.getMonth() + 1).padStart(2, "0")}.${local.bosh_sana.getFullYear()}`;
+        console.log(sa);
+        if (sa === item.date) {
+          console.log(item.miqdor, typeof item.miqdor);
+          fr = local.free_tulov + item.miqdor;
+        } else {
+          fr = local.free_tulov;
+        }
+      });
 
-      const row = {
+      let row = {
         id: String(i),
         sana: String(getDate(local.bosh_sana)),
         asosiy_qarz: String(pul(q)),
@@ -93,20 +105,9 @@ const Output = ({ global }) => {
           i % local.free_davr === 0 &&
           q > a + local.free_tulov &&
           local.free_bool
-            ? String(pul(local.free_tulov))
+            ? String(pul(fr))
             : "            ",
       };
-
-      local.istisno.forEach((item) => {
-        if (
-          row.sana.slice(2, row.length) ===
-          String(item.date.getMonth() + 1).padStart(2, "0") +
-            "." +
-            item.date.getFullYear()
-        ) {
-          row.free_tulov += item.miqdor;
-        }
-      });
 
       t.push(row);
 
@@ -123,13 +124,9 @@ const Output = ({ global }) => {
       jami_asosiy += a;
 
       // qo'shimcha to'lovni hisoblash
-      if (
-        i % local.free_davr === 0 &&
-        q > local.free_tulov &&
-        local.free_bool
-      ) {
-        q -= local.free_tulov;
-        jami_free += local.free_tulov;
+      if (i % local.free_davr === 0 && q > fr && local.free_bool) {
+        q -= fr;
+        jami_free += fr;
       }
 
       // keyingi oy uchun asosiy qarzni hisoblash
