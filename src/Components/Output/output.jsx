@@ -83,15 +83,13 @@ const Output = ({ global }) => {
         local.bosh_sana.setDate(local.bosh_sana.getDate() + 1);
       }
       // Istisnoni hisoblash
+      fr = local.free_tulov;
       local.istisno.forEach((item) => {
         let sa = `${String(local.bosh_sana.getMonth() + 1).padStart(2, "0")}.${local.bosh_sana.getFullYear()}`;
-        console.log(sa);
         if (sa === item.date) {
-          console.log(item.miqdor, typeof item.miqdor);
-          fr = local.free_tulov + item.miqdor;
-        } else {
-          fr = local.free_tulov;
+          fr += item.miqdor;
         }
+        console.log(fr, item.date);
       });
 
       let row = {
@@ -102,9 +100,7 @@ const Output = ({ global }) => {
         foiz_tulov: String(pul(f)),
         jami_tulov: String(pul(a + f)),
         free_tulov:
-          i % local.free_davr === 0 &&
-          q > a + local.free_tulov &&
-          local.free_bool
+          i % local.free_davr === 0 && q > a + fr && local.free_bool
             ? String(pul(fr))
             : "            ",
       };
