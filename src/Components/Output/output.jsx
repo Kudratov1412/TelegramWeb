@@ -3,23 +3,41 @@ import "./output.css";
 
 const Output = ({ global }) => {
   const [local, setLocal] = useState({
-    bosh_sana: global.bosh_sana ? new Date(global.bosh_sana) : new Date(),
-    muddat: Number(global.muddat),
-    yillik_foiz: Number(global.foiz),
-    oylik_foiz: Number(global.foiz) / 12,
-    summa: Number(global.summa),
-    bosh_tulov: Number(global.bosh_tulov),
-    free_bool: global.free_bool,
-    free_tulov: Number(global.free_tulov),
-    free_davr: Number(global.free_davr),
-    istisno: global.istisno,
-    asosiy_qarz: Number(global.summa) - Number(global.bosh_tulov),
+    // bosh_sana: global.bosh_sana ? new Date(global.bosh_sana) : new Date(),
+    // muddat: Number(global.muddat),
+    // yillik_foiz: Number(global.foiz),
+    // oylik_foiz: Number(global.foiz) / 12,
+    // summa: Number(global.summa),
+    // bosh_tulov: Number(global.bosh_tulov),
+    // free_bool: global.free_bool,
+    // free_tulov: Number(global.free_tulov),
+    // free_davr: Number(global.free_davr),
+    // istisno: global.istisno,
+    // asosiy_qarz: Number(global.summa) - Number(global.bosh_tulov),
+    // asosiy_qarzga_birinchi_tulov:
+    //   Math.round(
+    //     (((Number(global.summa) - Number(global.bosh_tulov)) *
+    //       Number(global.foiz)) /
+    //       12 /
+    //       (Math.pow(1 + Number(global.foiz) / 12, Number(global.muddat)) - 1)) *
+    //       100,
+    //   ) / 100,
+    bosh_sana: new Date(2026, 9, 31),
+    muddat: 48,
+    yillik_foiz: 22,
+    oylik_foiz: 22 / 12,
+    summa: 310000000,
+    bosh_tulov: 100000000,
+    free_bool: true,
+    free_tulov: 8000000,
+    free_davr: 1,
+    istisno: [],
+    asosiy_qarz: 310000000 - 100000000,
     asosiy_qarzga_birinchi_tulov:
       Math.round(
-        (((Number(global.summa) - Number(global.bosh_tulov)) *
-          Number(global.foiz)) /
+        (((310000000 - 100000000) * 22) /
           12 /
-          (Math.pow(1 + Number(global.foiz) / 12, Number(global.muddat)) - 1)) *
+          (Math.pow(1 + 22 / 12, 48) - 1)) *
           100,
       ) / 100,
   });
@@ -59,8 +77,6 @@ const Output = ({ global }) => {
   };
 
   const shan_Yak = (date) => {
-    console.log(getDate(date));
-
     let kun = date.getDate();
     let oy = date.getMonth();
     let yil = date.getFullYear();
@@ -69,17 +85,15 @@ const Output = ({ global }) => {
       date.setDate(date.getDate() + 1);
     }
 
-    console.log(getDate(date));
-
     if (date.getMonth() !== oy) {
-      let old_date = new Date(yil, oy + 1, kun);
+      let old_date = new Date(yil, oy, kun);
       while (old_date.getDay() == 6 || old_date.getDay() == 0) {
         old_date.setDate(old_date.getDate() - 1);
       }
       date = old_date;
     }
+
     console.log(getDate(date));
-    console.log("---------------------");
 
     return date;
   };
@@ -105,7 +119,13 @@ const Output = ({ global }) => {
       }
 
       // shanba, yakshanba kunlarini hisobga olish
-      setLocal({ ...local, bosh_sana: shan_Yak(local.bosh_sana) });
+      setLocal({
+        ...local,
+        bosh_sana: structuredClone(shan_Yak(local.bosh_sana)),
+      });
+
+      console.log(getDate(local.bosh_sana));
+      console.log("---------------");
 
       // Istisnoni hisoblash
       fr = local.free_tulov;
@@ -114,7 +134,6 @@ const Output = ({ global }) => {
         if (sa === item.date) {
           fr += item.miqdor;
         }
-        console.log(sa, item.date, item.miqdor);
       });
 
       if (q < a + fr) {
