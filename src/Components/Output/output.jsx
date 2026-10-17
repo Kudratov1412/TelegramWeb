@@ -58,6 +58,32 @@ const Output = ({ global }) => {
     return chiroyliSana;
   };
 
+  const shan_Yak = (date) => {
+    console.log(getDate(date));
+
+    let kun = date.getDate();
+    let oy = date.getMonth();
+    let yil = date.getFullYear();
+
+    while (date.getDay() == 6 || date.getDay() == 0) {
+      date.setDate(date.getDate() + 1);
+    }
+
+    console.log(getDate(date));
+
+    if (date.getMonth() !== oy) {
+      let old_date = new Date(yil, oy + 1, kun);
+      while (old_date.getDay() == 6 || old_date.getDay() == 0) {
+        old_date.setDate(old_date.getDate() - 1);
+      }
+      date = old_date;
+    }
+    console.log(getDate(date));
+    console.log("---------------------");
+
+    return date;
+  };
+
   const calculateOutput = () => {
     // Initialize variables
     let today = local.bosh_sana.getDate();
@@ -79,9 +105,8 @@ const Output = ({ global }) => {
       }
 
       // shanba, yakshanba kunlarini hisobga olish
-      while (local.bosh_sana.getDay() == 6 || local.bosh_sana.getDay() == 0) {
-        local.bosh_sana.setDate(local.bosh_sana.getDate() + 1);
-      }
+      setLocal({ ...local, bosh_sana: shan_Yak(local.bosh_sana) });
+
       // Istisnoni hisoblash
       fr = local.free_tulov;
       local.istisno.forEach((item) => {
@@ -89,8 +114,12 @@ const Output = ({ global }) => {
         if (sa === item.date) {
           fr += item.miqdor;
         }
-        console.log(fr, item.date);
+        console.log(sa, item.date, item.miqdor);
       });
+
+      if (q < a + fr) {
+        fr = q - a;
+      }
 
       let row = {
         id: String(i),
@@ -100,9 +129,7 @@ const Output = ({ global }) => {
         foiz_tulov: String(pul(f)),
         jami_tulov: String(pul(a + f)),
         free_tulov:
-          i % local.free_davr === 0 && q > a + fr && local.free_bool
-            ? String(pul(fr))
-            : "            ",
+          i % local.free_davr === 0 && local.free_bool ? String(pul(fr)) : "",
       };
 
       t.push(row);
@@ -120,7 +147,7 @@ const Output = ({ global }) => {
       jami_asosiy += a;
 
       // qo'shimcha to'lovni hisoblash
-      if (i % local.free_davr === 0 && q > fr && local.free_bool) {
+      if (i % local.free_davr === 0 && local.free_bool) {
         q -= fr;
         jami_free += fr;
       }
@@ -129,7 +156,7 @@ const Output = ({ global }) => {
       a = Math.round(a * (1 + local.oylik_foiz) * 100) / 100;
 
       // agar asosiy qarz 0 bo'lsa, siklni to'xtatish
-      if (q === 0) break;
+      if (q <= 0) break;
     }
 
     setTables(t);
